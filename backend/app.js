@@ -7,7 +7,6 @@ const feedRoutes = require("./routes/feed");
 const keys = require("./keys");
 const PORT = process.env.PORT || 8080;
 
-console.log(process.env.NODE_ENV)
 const app = express();
 
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
