@@ -8,6 +8,7 @@ const { graphqlHTTP } = require("express-graphql");
 
 const graphqlSchema = require("./graphql/schema");
 const graphqlResolver = require("./graphql/resolvers");
+const auth = require("./middleware/auth");
 
 const keys = require("./keys");
 const PORT = process.env.PORT || 8080;
@@ -42,6 +43,8 @@ app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
+
+app.use(auth);
 
 app.use(
   "/graphql",
