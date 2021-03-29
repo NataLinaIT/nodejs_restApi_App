@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
+const cors = require(`cors`);
 const { graphqlHTTP } = require("express-graphql");
 
 const graphqlSchema = require("./graphql/schema");
@@ -12,6 +13,7 @@ const keys = require("./keys");
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+app.use(cors());
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -66,6 +68,9 @@ app.use((req, res, next) => {
     "OPTIONS, GET, POST, PUT, PATCH, DELETE"
   );
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") {
+    return res.setStatus(200);
+  }
   next();
 });
 
