@@ -3,9 +3,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
+const { graphqlHTTP } = require("express-graphql");
 
-const feedRoutes = require("./routes/feed");
-const authRoutes = require("./routes/auth");
+const graphqlSchema = require("./graphql/schema");
+const graphqlResolver = require("./graphql/resolvers");
 
 const keys = require("./keys");
 const PORT = process.env.PORT || 8080;
@@ -40,6 +41,15 @@ app.use(
 );
 app.use("/images", express.static(path.join(__dirname, "images")));
 
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql: true
+  })
+);
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -49,9 +59,6 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
-
-app.use("/feed", feedRoutes);
-app.use("/auth", authRoutes);
 
 app.use((error, req, res, next) => {
   console.log(error);
@@ -69,11 +76,7 @@ async function start() {
       useFindAndModify: false,
     });
 
-    const server = app.listen(PORT);
-    const io = require("./socket").init(server);
-    io.on("connection", (socket) => {
-      console.log("Client connected");
-    });
+    app.listen(PORT);
   } catch (e) {
     console.log(e);
   }

@@ -5,10 +5,10 @@
 * express
 * mongoose | mongodb 
 * express-validator
+* GraphQL
 * multer
 * bcryptjs
 * jsonwebtoken
-* socket.io
 
 In the project directory to install node moduls:
 ### `npm install`
