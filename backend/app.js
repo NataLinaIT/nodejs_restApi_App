@@ -69,8 +69,10 @@ async function start() {
       useFindAndModify: false,
     });
 
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+    const server = app.listen(PORT);
+    const io = require("./socket").init(server);
+    io.on("connection", (socket) => {
+      console.log("Client connected");
     });
   } catch (e) {
     console.log(e);
