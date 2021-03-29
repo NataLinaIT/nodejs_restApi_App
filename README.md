@@ -1,6 +1,7 @@
-# Node.js REST API & React App
+# Node.js & GraphQL & React App
 
 ### Involved Technologies & Tools:
+* React
 * Node.js
 * express
 * mongoose | mongodb 
